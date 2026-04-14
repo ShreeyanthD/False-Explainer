@@ -2,8 +2,22 @@ import streamlit as st #for frontend/ to build and deply web apps
 from dotenv import load_dotenv
 import os
 from openai import OpenAI #for api key
-
 load_dotenv()
+
+APP_PASSWORD = os.getenv("APP_PASSWORD")
+
+password = st.text_input("Enter password to access the app", type="password")
+if password:
+    if password != APP_PASSWORD:
+        st.warning("Access denied")
+        st.stop()
+    else:
+        st.success("Access granted ✅")
+else:
+    st.info("Please enter password to continue")
+    st.stop()
+
+
 
 client = OpenAI(api_key=os.getenv("GROQ_API_KEY"),
                 base_url="https://api.groq.com/openai/v1") # he uses api key so hes like a model ig
